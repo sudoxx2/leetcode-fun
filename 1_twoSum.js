@@ -15,14 +15,14 @@
  * @return {number[]}
  */
 var twoSum = function(nums, target) {
-  for (var i = 0; i < nums.length; i++) {
-    for (var j = 0; j < nums.length; j++) {
-      if (nums[i] + nums[j] == target && i != j) {
-        var arr = [];
-        arr[0] = i;
-        arr[1] = j;
-        return arr;
-      }
+    for(let i = 0; i < nums.length; i++) {
+        for(let j = 0; j < nums.length; j++) {
+            if(i != j && nums[i] + nums[j] == target) {
+                nums = [];
+                nums.push(i);
+                nums.push(j);
+                return nums;
+            }
+        }
     }
-  }
 };
