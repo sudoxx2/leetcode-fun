@@ -1,0 +1,31 @@
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var isPalindrome = function(s) {
+    if(s.length == 0 || s == '') {
+        return true
+    }
+    
+    s = s.toLowerCase()
+    
+    let pattern = /^[a-z0-9]$/
+    
+    let i = 0, j = s.length - 1
+    
+    while(i < j) {
+        if(s[i] == s[j]) {
+            i++, j--
+        } else if(!s[i].match(pattern)) {
+            // console.log("match regex: " + s[i] )
+            i++
+        } else if(!s[j].match(pattern)) {
+            // console.log("match regex: " + s[i] )
+            j--
+        } else {
+            return false
+        }
+    }
+    
+    return true
+};
