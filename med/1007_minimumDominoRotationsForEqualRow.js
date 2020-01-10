@@ -3,49 +3,80 @@
  * @param {number[]} B
  * @return {number}
  */
+
 var minDominoRotations = function(A, B) {
-  let domObj = {}
-  
-  for(let i = 0; i < A.length; i++) {
-      if(!(A[i] in domObj)) {
-          domObj[A[i]] = 1
-          // console.log(domObj.2)
-      } else {
-          domObj[A[i]] = domObj[A[i]] + 1
-      }
-  }
-  
-  for(let i = 0; i < B.length; i++) {
-      if(!(B[i] in domObj)) {
-          domObj[B[i]] = 1
-          // console.log(domObj.2)
-      } else {
-          domObj[B[i]] = domObj[A[i]] + 1
-      }
-  }
-  
-  Object.keys(domObj).forEach(key => {
-      console.log(domObj[key])
-  })
-  
-  console.log(domObj)
+    let domObj = {}
+    
+    for(let i = 0; i < A.length; i++) {
+        // console.log(A[i])
+        if(!(A[i] in domObj)) {
+            // console.log("1condi")
+            domObj[A[i]] = 1
+            // console.log(domObj.2)
+        } else {
+            // console.log("2condi")
+            domObj[A[i]] = domObj[A[i]] + 1
+        }
+    }
+    
+    for(let i = 0; i < B.length; i++) {
+        if(!(B[i] in domObj) && (A[i] != B[i])) {
+            domObj[B[i]] = 1
+            // console.log(domObj.2)
+        } else if(A[i] != B[i]) {
+            domObj[B[i]] = domObj[B[i]] + 1
+        } else {
+            continue
+        }
+    }
+    
+    console.log(domObj)
+    
+    if(!isSolvable(A, B, domObj)) {
+        return -1
+    } 
+    
+    let targetVal = Number.MIN_VALUE
+    let target = -1
+    
+    for(key in domObj) {
+        if(targetVal < domObj[key]) {
+            targetVal = domObj[key]
+            target = key
+        }
+    }
+    
+    console.log(target)
+    
+    let rotationsA = 0, rotationsB = 0
+    
+    for(let i = 0; i < A.length; i++) {
+        if(A[i] != target) {
+            rotationsA++
+        }
+    }
+    
+    for(let i = 0; i < B.length; i++) {
+        if(B[i] != target) {
+            rotationsB++
+        }
+    }
+    
+    if(rotationsA < rotationsB) {
+        return rotationsA
+    } else {
+        return rotationsB
+    }
+    
 };
 
-  
-//     for(let i = 0; i < A.length ; i++) {
-//         if(dominoMap.has(A[i])) {
-//             dominoMap.set(A[i], (dominoMap.get(A[i]) + 1))
-//         } else {
-//             dominoMap.set(A[i], 1)
-//         }
-//     }
-  
-//     for(let i = 0; i < B.length ; i++) {
-//         if(dominoMap.has(B[i])) {
-//             dominoMap.set(B[i], (dominoMap.get(A[i]) + 1))
-//         } else {
-//             dominoMap.set(B[i], 1)
-//         }
-//     }
-  
-  
+var isSolvable = function(A, B, domObj) {
+    for(key in domObj) {
+        console.log(key + ' - ' +domObj[key])
+        if(domObj[key] >= A.length) {
+            return true
+        }
+    }
+    
+    return false
+}
