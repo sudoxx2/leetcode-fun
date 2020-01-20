@@ -7,37 +7,27 @@
 
  */
 var longestPalindrome = function(s) {
-    if(s == null || s.length < 1) return ""
-    if(s.length == 1) return s
-    
-    let start = 0, end = 0
-    
-    for(let i = 0; i < s.length; i++) {
-        let len1 = expandFromMiddle(s, i, i)
-        let len2 = expandFromMiddle(s, i, i+1)
-        let len = Math.max(len1, len2)
-        if(len > end - start) {
-            start = i - (Math.trunc((len - 1) / 2))
-            end = i + Math.trunc((len / 2))
-            console.log(start + " " + end)
+    if (!s || s.length <= 1) {
+        return s
+    }
+    let longest = s.substring(0, 1)
+    for (let i = 0; i < s.length; i++) {
+        let temp = expand(s, i, i)
+        if (temp.length > longest.length) {
+            longest = temp
+        }
+        temp = expand(s, i, i + 1)
+        if (temp.length > longest.length) {
+            longest = temp
         }
     }
-    
-    return s.substr(start, end + 1)
-    //babad
-    
+    return longest
+}
 
-};
-
-
-function expandFromMiddle(s, left, right) {
-    if(s == null || left > right) return 0
-    
-    // console.log(left+ " " + right)
-    while(left >= 0 && right < s.length && s[left] == s[right]) {
-        left--
-        right++
+const expand = (s, begin, end) => {
+    while (begin >= 0 && end <= s.length - 1 && s[begin] === s[end]) {
+        begin--
+        end++
     }
-    
-    return right - left - 1
+    return s.substring(begin + 1, end)
 }
